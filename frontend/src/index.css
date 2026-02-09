@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles for accessibility */
+:root {
+  --color-primary: #002d62;
+  --color-accent: #ce1126;
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --font-size-base: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast button base */
+.btn-accessible {
+  @apply min-h-touch px-8 rounded-accessible font-semibold text-accessible-lg
+         transition-all duration-200 ease-in-out
+         focus:ring-4 focus:ring-primary-300
+         active:scale-95;
+}
+
+/* Primary button */
+.btn-primary {
+  @apply btn-accessible bg-primary-500 text-white
+         hover:bg-primary-600 hover:shadow-accessible-lg;
+}
+
+/* Accent/Action button */
+.btn-accent {
+  @apply btn-accessible bg-accent-500 text-white
+         hover:bg-accent-600 hover:shadow-glow-accent;
+}
+
+/* Giant microphone button */
+.btn-microphone {
+  @apply w-32 h-32 rounded-full bg-accent-500 text-white
+         flex items-center justify-center
+         shadow-accessible-lg
+         transition-all duration-300 ease-in-out
+         hover:scale-105 hover:shadow-glow-accent
+         focus:ring-4 focus:ring-accent-300
+         active:scale-95;
+}
+
+.btn-microphone.listening {
+  @apply animate-listening bg-accent-600;
+  box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.4);
+  animation: pulse-ring 1.5s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(206, 17, 38, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(206, 17, 38, 0);
+  }
+}
+
+/* Status indicators */
+.status-pending {
+  @apply bg-gray-200 text-gray-600;
+}
+
+.status-processing {
+  @apply bg-warning-100 text-warning-600;
+}
+
+.status-complete {
+  @apply bg-success-100 text-success-600;
+}
+
+.status-error {
+  @apply bg-red-100 text-red-600;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-accessible shadow-accessible p-6;
+}
+
+.card-elevated {
+  @apply card shadow-accessible-lg;
+}
+
+/* Document camera guide overlay */
+.camera-guide {
+  position: absolute;
+  border: 4px dashed rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.camera-guide.aligned {
+  border-color: var(--color-success);
+  border-style: solid;
+}
+
+/* Avatar states */
+.avatar-idle {
+  @apply opacity-80;
+}
+
+.avatar-listening {
+  @apply animate-bounce-gentle;
+}
+
+.avatar-processing {
+  @apply animate-pulse-slow;
+}
+
+.avatar-speaking {
+  animation: speaking 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes speaking {
+  from { transform: scaleY(1); }
+  to { transform: scaleY(1.05); }
+}
+
+/* Audio visualizer bars */
+.audio-bar {
+  @apply w-1 bg-accent-500 rounded-full;
+  animation: wave 0.5s ease-in-out infinite;
+}
+
+.audio-bar:nth-child(1) { animation-delay: 0s; }
+.audio-bar:nth-child(2) { animation-delay: 0.1s; }
+.audio-bar:nth-child(3) { animation-delay: 0.2s; }
+.audio-bar:nth-child(4) { animation-delay: 0.1s; }
+.audio-bar:nth-child(5) { animation-delay: 0s; }
+
+/* Message bubbles */
+.message-user {
+  @apply bg-primary-500 text-white rounded-2xl rounded-br-sm;
+}
+
+.message-assistant {
+  @apply bg-white text-gray-800 rounded-2xl rounded-bl-sm shadow-accessible;
+}
+
+/* Procedure steps */
+.step-indicator {
+  @apply w-12 h-12 rounded-full flex items-center justify-center
+         font-bold text-accessible-lg;
+}
+
+.step-pending {
+  @apply bg-gray-100 text-gray-400;
+}
+
+.step-current {
+  @apply bg-primary-500 text-white shadow-glow;
+}
+
+.step-complete {
+  @apply bg-success-500 text-white;
+}
+
+/* Responsive adjustments for touch devices */
+@media (pointer: coarse) {
+  .btn-accessible {
+    @apply min-h-touch-lg;
+  }
+  
+  .btn-microphone {
+    @apply w-40 h-40;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  body {
+    background: white;
+  }
+  
+  .btn-primary {
+    @apply border-4 border-black;
+  }
+  
+  .card {
+    @apply border-2 border-black;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
