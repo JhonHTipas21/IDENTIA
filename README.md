@@ -1,13 +1,43 @@
-# 🪪 IDENTIA
+<div align="center">
+  <img src="docs/assets/screenshots/home_dashboard.png" alt="IDENTIA Dashboard" width="100%" />
 
-**Ecosistema de Identidad y Asistencia Ciudadana con IA**
+  # 🪪 IDENTIA v1.5
+  ### Ecosistema de Identidad y Asistencia Ciudadana con IA
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![React](https://img.shields.io/badge/React-18.x-61dafb)
-![Python](https://img.shields.io/badge/Python-3.10+-3776ab)
+  [![React](https://img.shields.io/badge/React-18.x-61dafb?style=for-the-badge&logo=react)](https://reactjs.org/)
+  [![Vite](https://img.shields.io/badge/Vite-5.x-646cff?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.x-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+  [![Python](https://img.shields.io/badge/Python-3.10+-3776ab?style=for-the-badge&logo=python)](https://www.python.org/)
+  [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-IDENTIA es una plataforma de gobierno digital que utiliza **Inteligencia Artificial Generativa**, **Reconocimiento de Voz** y **Autenticación Biométrica** para simplificar trámites ciudadanos, especialmente diseñada para usuarios de la tercera edad.
+  <p align="center">
+    <b>IDENTIA</b> revoluciona la interacción ciudadano-estado mediante un asistente inteligente capaz de ver, escuchar y guiar.
+    <br />
+    Diseñado con un enfoque <i>"accessibility-first"</i> para adultos mayores y ciudadanos digitales.
+  </p>
+</div>
+
+---
+
+## 🚀 Novedades de la Versión 1.5
+
+### 🧭 Sistema de Navegación Universal
+Nueva barra de herramientas flotante que permite un flujo de usuario intuitivo:
+- **Botón Home:** Regreso inmediato al panel de servicios.
+- **Botón Volver:** Historial de navegación inteligente.
+- **Feedback Auditivo:** Sonidos de interacción para mejorar la accesibilidad.
+
+### 📊 Línea de Tiempo de Trámites (StatusView)
+Visualización clara y transparente del progreso de tus documentos:
+- Rastreo en tiempo real mediante PIN único.
+- Indicadores visuales de estado (Pendiente, En Proceso, Completado).
+- Integración con notificaciones de voz.
+
+### 💍 Módulo de Registro Civil de Matrimonio
+Nuevo flujo especializado para la gestión de nupcias:
+- **Voice Handler Específico:** Reconocimiento de números de registro por voz.
+- Validaciones automáticas de formato.
+- Guía paso a paso con el asistente virtual.
 
 ---
 
@@ -15,104 +45,77 @@ IDENTIA es una plataforma de gobierno digital que utiliza **Inteligencia Artific
 
 | Característica | Descripción |
 |----------------|-------------|
-| 🤖 **IA Conversacional** | Asistente virtual con respuestas humanas usando detección de intenciones |
-| 🎤 **Reconocimiento de Voz** | Entrada por voz en español con Web Speech API |
-| 🔐 **Autenticación Biométrica** | Verificación facial y por voz sin contraseñas |
-| 📷 **Escaneo de Documentos** | OCR con campos editables para corregir errores |
-| ♿ **Accesibilidad** | Diseño optimizado para adultos mayores |
+| 🤖 **IA Conversacional** | Asistente empático impulsado por LLMs que entiende el contexto y detecta intenciones. |
+| 🎤 **Reconocimiento de Voz** | Entrada natural por voz Web Speech API, optimizada para acentos locales. |
+| 🔐 **Biometría Avanzada** | Verificación de identidad facial y vocal sin contraseñas complejas. |
+| 📷 **Escaneo Inteligente** | OCR en tiempo real para digitalizar documentos físicos al instante. |
+| ♿ **Accesibilidad Total** | UI de alto contraste, textos grandes y navegación simplificada. |
 
 ---
 
-## 🛠️ Tecnologías
+## 🛠️ Stack Tecnológico
 
 ### Frontend
-- **React 18** + Vite
-- **Tailwind CSS** para estilos
-- **Web Speech API** para voz
+- **React 18** + **Vite**: Rendimiento ultrarrápido.
+- **Tailwind CSS**: Diseño moderno y responsivo.
+- **Framer Motion**: Animaciones fluidas para una experiencia premium.
+- **Web Speech API**: Reconocimiento y síntesis de voz nativos.
 
-### Backend (Planificado)
-- **FastAPI** + Python
-- **LangGraph** para flujos de IA
-- **Tesseract OCR** para documentos
+### Backend (Próximamente v2.0)
+- **FastAPI**: API REST de alto rendimiento.
+- **LangChain/LangGraph**: Orquestación de agentes de IA.
+- **Tesseract / Azure AI**: Procesamiento de documentos.
 
 ---
 
-## 🚀 Instalación
+## 📸 Galería
 
-### Requisitos
+<div align="center">
+  <img src="docs/assets/screenshots/home_dashboard.png" alt="Dashboard Principal" width="800" style="border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" />
+  <p><i>Panel principal con servicios accesibles y asistente virtual siempre disponible.</i></p>
+</div>
+
+---
+
+## 🚀 Instalación y Despliegue
+
+### Requisitos Previos
 - Node.js 18+
 - npm o yarn
 
-### Pasos
+### Pasos Rápidos
 
-```bash
-# Clonar el repositorio
-git clone https://github.com/JhonHTipas21/IDENTIA.git
-cd IDENTIA
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/JhonHTipas21/IDENTIA.git
+   cd IDENTIA/frontend
+   ```
 
-# Instalar dependencias del frontend
-cd frontend
-npm install
+2. **Instalar dependencias**
+   ```bash
+   npm install
+   ```
 
-# Ejecutar en desarrollo
-npm run dev
-```
+3. **Iniciar el servidor de desarrollo**
+   ```bash
+   npm run dev
+   ```
 
-La aplicación estará disponible en `http://localhost:3000`
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-IDENTIA/
-├── frontend/               # Aplicación React
-│   ├── src/
-│   │   ├── components/     # Componentes UI
-│   │   ├── services/       # API, Voz, etc.
-│   │   └── App.jsx         # Componente principal
-│   └── package.json
-├── backend/                # API FastAPI (planificado)
-├── ai_modules/             # Módulos de IA
-└── docs/                   # Documentación
-```
+4. **Abrir en el navegador**
+   Visita `http://localhost:5173` para interactuar con IDENTIA.
 
 ---
 
-## 📱 Capturas de Pantalla
+## 🤝 Contribución
 
-### Interfaz Principal
-- Asistente conversacional con avatar animado
-- Panel de estado del trámite
-- Botones accesibles de gran tamaño
-
-### Verificación Biométrica
-- Modal de reconocimiento facial
-- Instrucciones claras paso a paso
-- Indicador de confianza
-
-### Revisión de Documentos
-- Campos editables para corregir OCR
-- Indicador de confianza del escaneo
-- Opción de re-escanear
-
----
-
-## 🎯 Trámites Soportados
-
-- 🪪 Renovación de Cédula
-- 📄 Acta de Nacimiento
-- 🚗 Licencia de Conducir
-- 📋 Otros documentos oficiales
-
----
-
-## 👨‍💻 Autor
-
-**Jhon Harvey Tipas Solis**
-
----
+¡Las contribuciones son bienvenidas! Por favor, abre un issue o envía un pull request para mejoras.
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT.
+Este proyecto está distribuido bajo la licencia **MIT**.
+
+---
+
+<div align="center">
+  <sub>Desarrollado con ❤️ por Jhon Harvey Tipas Solis</sub>
+</div>
