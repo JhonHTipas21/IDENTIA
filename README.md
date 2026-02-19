@@ -68,11 +68,15 @@ Nuevo flujo especializado para la gestión de nupcias:
 
 ---
 
-## 📸 Galería
+## 📸 Galería Visual
 
-<div align="center">
-  <img src="docs/assets/screenshots/home_dashboard.png" alt="Dashboard Principal" width="800" style="border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" />
-  <p><i>Panel principal con servicios accesibles y asistente virtual siempre disponible.</i></p>
+<div align="center" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+  <img src="docs/assets/screenshots/SCR-20260218-qujh.jpeg" alt="Interfaz Principal" width="48%" style="border-radius: 8px;" />
+  <img src="docs/assets/screenshots/SCR-20260218-qvaj.png" alt="Detalle de Trámite" width="48%" style="border-radius: 8px;" />
+  <br />
+  <img src="docs/assets/screenshots/SCR-20260218-qvex.png" alt="Verificación Biométrica" width="32%" style="border-radius: 8px;" />
+  <img src="docs/assets/screenshots/SCR-20260218-qvhw.png" alt="Asistente Virtual" width="32%" style="border-radius: 8px;" />
+  <img src="docs/assets/screenshots/SCR-20260218-qvno.png" alt="Resumen de Estado" width="32%" style="border-radius: 8px;" />
 </div>
 
 ---
@@ -113,9 +117,3 @@ Nuevo flujo especializado para la gestión de nupcias:
 ## 📄 Licencia
 
 Este proyecto está distribuido bajo la licencia **MIT**.
-
----
-
-<div align="center">
-  <sub>Desarrollado con ❤️ por Jhon Harvey Tipas Solis</sub>
-</div>
