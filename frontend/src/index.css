@@ -37,33 +37,27 @@ body {
 
 /* High contrast button base */
 .btn-accessible {
-  @apply min-h-touch px-8 rounded-accessible font-semibold text-accessible-lg
-         transition-all duration-200 ease-in-out
-         focus:ring-4 focus:ring-primary-300
-         active:scale-95;
+  @apply min-h-touch px-8 rounded-accessible font-semibold text-accessible-lg transition-all duration-200 ease-in-out focus:ring-4 focus:ring-primary-300 active:scale-95;
 }
 
 /* Primary button */
 .btn-primary {
-  @apply btn-accessible bg-primary-500 text-white
-         hover:bg-primary-600 hover:shadow-accessible-lg;
+  @apply btn-accessible bg-primary-500 text-white hover:bg-primary-600 hover:shadow-accessible-lg;
 }
 
 /* Accent/Action button */
 .btn-accent {
-  @apply btn-accessible bg-accent-500 text-white
-         hover:bg-accent-600 hover:shadow-glow-accent;
+  @apply btn-accessible bg-accent-500 text-white hover:bg-accent-600 hover:shadow-glow-accent;
+}
+
+/* Secondary/Outline button */
+.btn-secondary {
+  @apply btn-accessible bg-white text-gray-700 border-2 border-gray-300 hover:border-primary-400 hover:text-primary-700 hover:shadow-md;
 }
 
 /* Giant microphone button */
 .btn-microphone {
-  @apply w-32 h-32 rounded-full bg-accent-500 text-white
-         flex items-center justify-center
-         shadow-accessible-lg
-         transition-all duration-300 ease-in-out
-         hover:scale-105 hover:shadow-glow-accent
-         focus:ring-4 focus:ring-accent-300
-         active:scale-95;
+  @apply w-32 h-32 rounded-full bg-accent-500 text-white flex items-center justify-center shadow-accessible-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-glow-accent focus:ring-4 focus:ring-accent-300 active:scale-95;
 }
 
 .btn-microphone.listening {
@@ -76,9 +70,11 @@ body {
   0% {
     box-shadow: 0 0 0 0 rgba(206, 17, 38, 0.6);
   }
+
   70% {
     box-shadow: 0 0 0 20px rgba(206, 17, 38, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(206, 17, 38, 0);
   }
@@ -141,8 +137,13 @@ body {
 }
 
 @keyframes speaking {
-  from { transform: scaleY(1); }
-  to { transform: scaleY(1.05); }
+  from {
+    transform: scaleY(1);
+  }
+
+  to {
+    transform: scaleY(1.05);
+  }
 }
 
 /* Audio visualizer bars */
@@ -151,11 +152,25 @@ body {
   animation: wave 0.5s ease-in-out infinite;
 }
 
-.audio-bar:nth-child(1) { animation-delay: 0s; }
-.audio-bar:nth-child(2) { animation-delay: 0.1s; }
-.audio-bar:nth-child(3) { animation-delay: 0.2s; }
-.audio-bar:nth-child(4) { animation-delay: 0.1s; }
-.audio-bar:nth-child(5) { animation-delay: 0s; }
+.audio-bar:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.audio-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.audio-bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.audio-bar:nth-child(4) {
+  animation-delay: 0.1s;
+}
+
+.audio-bar:nth-child(5) {
+  animation-delay: 0s;
+}
 
 /* Message bubbles */
 .message-user {
@@ -168,8 +183,7 @@ body {
 
 /* Procedure steps */
 .step-indicator {
-  @apply w-12 h-12 rounded-full flex items-center justify-center
-         font-bold text-accessible-lg;
+  @apply w-12 h-12 rounded-full flex items-center justify-center font-bold text-accessible-lg;
 }
 
 .step-pending {
@@ -189,7 +203,7 @@ body {
   .btn-accessible {
     @apply min-h-touch-lg;
   }
-  
+
   .btn-microphone {
     @apply w-40 h-40;
   }
@@ -200,11 +214,11 @@ body {
   body {
     background: white;
   }
-  
+
   .btn-primary {
     @apply border-4 border-black;
   }
-  
+
   .card {
     @apply border-2 border-black;
   }
@@ -212,6 +226,7 @@ body {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

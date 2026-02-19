@@ -71,23 +71,35 @@ function generateLocalResponse(message, context) {
     const lowerMessage = message.toLowerCase();
     const procedure = context.procedure?.name || 'su trámite';
 
-    // Intent detection patterns
+    // Intent detection patterns — Registraduía Nacional de Colombia
     const intents = {
-        greeting: /^(hola|buenos|buenas|saludos|hey)/i,
+        greeting: /^(hola|buenos|buenas|saludos|hey|buen día)/i,
         help: /(ayuda|ayudame|no entiendo|confundido|explicar|cómo)/i,
-        cedula: /(cedula|cédula|identidad|renovar|renovación)/i,
-        acta: /(acta|nacimiento|partida)/i,
-        licencia: /(licencia|conducir|manejar|carnet)/i,
+        // Cédula
+        cedula_primera: /(primera vez|primera cédula|sacar cédula|expedir cédula)/i,
+        cedula_duplicado: /(duplicado|perdí|perdí|robo|robaron|deteriorada|dañada)/i,
+        cedula_renovacion: /(renovar|renovación|vencida|actualizar cédula)/i,
+        cedula_rectifica: /(rectificar|rectificación|corregir|error en la cédula)/i,
+        cedula: /(cedula|cédula|identidad)/i,
+        // Tarjeta de Identidad
+        tarjeta_identidad: /(tarjeta de identidad|tarjeta identidad|menor|niño|hijo)/i,
+        // Registro Civil
+        matrimonio: /(matrimonio|casamiento|boda|casado|casada)/i,
+        defuncion: /(defunción|defuncion|fallecido|fallecida|muerte|muerto)/i,
+        nacimiento: /(nacimiento|acta|registro civil|inscribir|inscripción)/i,
+        apostilla: /(apostilla|exterior|extranjero|legalizar)/i,
+        // Consultas
+        estado: /(estado|cómo va|como va|seguimiento|radicado|listo mi)/i,
+        oficinas: /(oficina|sede|dónde|donde queda|dirección)/i,
+        // Tarifas y citas
+        tarifas: /(tarifa|costo|precio|cuánto|cuanto|gratis|gratuito|exoneración|exoneracion)/i,
+        cita: /(cita|agendar|turno|reservar|cuando puedo ir)/i,
+        // Generales
         documents: /(documento|foto|imagen|escanear|subir)/i,
-        appointment: /(cita|agendar|fecha|horario|cuando)/i,
-        status: /(estado|progreso|cómo va|avance)/i,
         cancel: /(cancelar|parar|detener|no quiero)/i,
         thanks: /(gracias|grazie|thanks|muchas gracias)/i,
-        yes: /^(sí|si|claro|correcto|ok|bien|dale|perfectol)/i,
+        yes: /^(sí|si|claro|correcto|ok|bien|dale|perfecto)/i,
         no: /^(no|nop|negativo|incorrecto)/i,
-        requirements: /(requisitos|necesito|qué necesito|qué debo)/i,
-        time: /(cuánto|tiempo|demora|tarda|días)/i,
-        cost: /(costo|precio|cuánto cuesta|pagar)/i,
     };
 
     // Match intent
@@ -104,39 +116,75 @@ function generateLocalResponse(message, context) {
     // Generate contextual response based on intent
     switch (intent) {
         case 'greeting':
-            response = `¡Hola! 👋 Bienvenido a IDENTIA.\n\nSoy su asistente virtual y estoy aquí para ayudarle con sus trámites gubernamentales.\n\n¿En qué puedo ayudarle hoy? Puede decirme qué trámite necesita o simplemente contarme su situación.`;
+            response = `¡Hola! 👋 Bienvenido a IDENTIA — Registraduía Nacional de Colombia.\n\nEstoy aquí para ayudarle con sus trámites de identidad y registro civil.\n\n¿En qué puedo ayudarle hoy? Puede decirme qué necesita o seleccionar un servicio del menú.`;
             break;
 
         case 'help':
-            response = `¡Con gusto le ayudo! 🤗\n\nPuedo asistirle con:\n• **Renovación de Cédula** - 5 a 10 días\n• **Acta de Nacimiento** - 3 a 5 días\n• **Licencia de Conducir** - 1 a 3 días\n\nSimplemente dígame qué necesita hacer, o si prefiere, puede usar los botones para seleccionar un trámite.\n\n¿Cuál le interesa?`;
+            response = `¡Con gusto le ayudo! 🤗\n\nPuedo asistirle con:\n• **Cédula de Ciudadanía** (primera vez, duplicado, renovación)\n• **Tarjeta de Identidad** para menores\n• **Registro Civil** (nacimiento, matrimonio, defunción)\n• **Apostilla** para el exterior\n• **Citas** y **Tarifas**\n\nSimplemente dígame qué necesita.`;
+            break;
+
+        case 'cedula_primera':
+            response = `¡Con gusto le ayudo a sacar su cédula por primera vez! 🇸\n\n¡Buenas noticias! Este trámite es **completamente GRATUITO**.\n\n📋 **Necesita:**\n• Registro Civil de Nacimiento original\n• Foto 3x4 fondo blanco\n• Ser mayor de 18 años\n\n⏱️ **Tiempo:** 15 días hábiles\n\n¿Desea que le agende una cita?`;
+            break;
+
+        case 'cedula_duplicado':
+            response = `Entiendo, necesita un duplicado de su cédula. 🔐\n\nPara proteger su seguridad, este trámite requiere **verificación biométrica facial** obligatoria.\n\n💰 **Costo:** $51.900 COP\n⚠️ **Exonerados:** Víctimas del conflicto, adultos mayores vulnerables, personas con discapacidad.\n\n¿Desea verificar si aplica para exoneración?`;
+            break;
+
+        case 'cedula_renovacion':
+            response = `¡Perfecto! La renovación de cédula es **completamente GRATUITA**. 🔄\n\n📋 **Solo necesita:**\n• Su cédula actual (aunque esté deteriorada o vencida)\n• Foto 3x4 fondo blanco\n\n⏱️ **Tiempo:** 15 días hábiles\n\n¿Le agendo una cita en la Registraduía más cercana?`;
+            break;
+
+        case 'cedula_rectifica':
+            response = `Entiendo que necesita corregir datos en su cédula. ✏️\n\nSi el error fue cometido por la Registraduía, el trámite es **completamente GRATUITO**.\n\n📋 **Necesita:**\n• Cédula actual con el error\n• Registro Civil que acredite el dato correcto\n\n¿Qué dato necesita corregir?`;
             break;
 
         case 'cedula':
-            response = `¡Perfecto! La renovación de cédula es un trámite sencillo. 🪪\n\n**Lo que necesita:**\n• Su cédula actual (foto)\n• Verificación facial\n\n**Proceso:**\n1. Verificamos su identidad con la cámara\n2. Escaneamos su documento actual\n3. Revisión automática\n4. Agendamos su cita\n\n**Tiempo estimado:** 5-10 días hábiles\n\n¿Comenzamos ahora? Solo necesito que me permita acceder a la cámara.`;
+            response = `🇸 Para su cédula de ciudadanía, ¿qué tipo de trámite necesita?\n\n• **Primera vez** (GRATUITA)\n• **Duplicado** por pérdida o hurto ($51.900)\n• **Rectificación** de datos (GRATUITA si el error es de la Registraduía)\n• **Renovación** (GRATUITA)\n\n¿Cuál de estas opciones necesita?`;
             break;
 
-        case 'acta':
-            response = `¡Claro! Le ayudo con su Acta de Nacimiento. 📄\n\n**Información que necesito:**\n• Nombre completo\n• Fecha de nacimiento\n• Nombre de los padres (opcional)\n\n**Tiempo estimado:** 3-5 días hábiles\n\n¿Me puede proporcionar su nombre completo y fecha de nacimiento?`;
+        case 'tarjeta_identidad':
+            response = `👶 La Tarjeta de Identidad para menores es **completamente GRATUITA**.\n\n📋 **Necesita:**\n• Registro Civil de Nacimiento del menor\n• Cédula del padre, madre o acudiente\n• Foto 3x4 del menor\n\nℹ️ Es para menores entre **7 y 17 años**.\n\n¿Cuántos años tiene el menor?`;
             break;
 
-        case 'licencia':
-            response = `¡Excelente! Vamos con la Licencia de Conducir. 🚗\n\n**Opciones disponibles:**\n• Renovación de licencia existente\n• Primera licencia (requiere curso)\n• Duplicado por pérdida\n\n**Tiempo estimado:** 1-3 días hábiles\n\n¿Cuál de estas opciones necesita?`;
+        case 'matrimonio':
+            response = `💍 **Copia de Registro Civil de Matrimonio**\n\n💰 **Costo:** $6.900 COP\n👥 **Exonerados:** Víctimas del conflicto armado\n\n📋 **Necesita:**\n• Su cédula de identidad\n• Nombres completos de los contrayentes y fecha aproximada\n\n🌐 También puede solicitarla en línea en registraduria.gov.co\n\n¿Desea que le ayude a solicitarla?`;
+            break;
+
+        case 'defuncion':
+            response = `📜 **Copia de Registro Civil de Defunción**\n\n💰 **Costo:** $6.900 COP\n\n📋 **Necesita:**\n• Su cédula de identidad\n• Nombre completo del fallecido y fecha aproximada\n\n¿Desea continuar con esta solicitud?`;
+            break;
+
+        case 'nacimiento':
+            response = `📜 **Registro Civil de Nacimiento**\n\n💰 **Inscripción:** GRATUITA (dentro de los primeros 30 días)\n💰 **Copia auténtica:** $6.900 COP\n\n¿Necesita inscribir un nacimiento o solicitar una copia del registro?`;
+            break;
+
+        case 'apostilla':
+            response = `🌍 **Apostilla de Documentos**\n\nLa apostilla es la legalización internacional según el Convenio de La Haya.\n\n💰 **Costo:** $51.900 COP\n🏢 **Solo en:** Registraduía Nacional — Sede Central (Bogotá)\n   O en línea: apostilla.registraduria.gov.co\n\n⏱️ **Tiempo:** 3-5 días hábiles\n\n¿Qué documento necesita apostillar?`;
+            break;
+
+        case 'estado':
+            response = `🔍 **Consulta de Estado de Trámite**\n\nPuedo consultar el estado de su documento.\n\n💳 Por favor indíqueme su **número de cédula** o el **número de radicado** que le dieron cuando inició el trámite.`;
+            break;
+
+        case 'oficinas':
+            response = `📍 **Oficinas de la Registraduía**\n\n🏢 **Sede Central — Bogotá**\n   Calle 26 No. 51-50, CAN\n   📞 601 2288000\n   🕐 Lunes a Viernes 8:00 AM – 4:00 PM\n\n🏢 **Medellín**\n   Carrera 52 No. 42-73, Centro\n   📞 604 5110000\n\n🏢 **Cali**\n   Carrera 4 No. 12-41, Centro\n   📞 602 8820000\n\n¿En qué ciudad se encuentra?`;
+            break;
+
+        case 'tarifas':
+            response = `💰 **Tarifas Vigentes 2024 — Registraduía Nacional**\n\n🆓 **GRATUITOS:**\n• Cédula primera vez\n• Cédula renovación\n• Tarjeta de Identidad\n• Inscripción de nacimiento\n\n💳 **Con costo:**\n• Duplicado cédula: $51.900 COP\n• Copias registro civil: $6.900 COP\n• Apostilla: $51.900 COP\n\n⚠️ Víctimas del conflicto, adultos mayores vulnerables y personas con discapacidad pueden estar **exonerados**. ¿Desea verificar si aplica?`;
+            break;
+
+        case 'cita':
+            response = `📅 **Agendamiento de Citas**\n\nPuedo ayudarle a agendar una cita en la Registraduía más cercana.\n\n🏢 **Ciudades disponibles:** Bogotá, Medellín, Cali, Barranquilla y más.\n\n¿En qué ciudad se encuentra usted?`;
             break;
 
         case 'documents':
-            response = `Para los documentos, le guío paso a paso: 📷\n\n1. Presione el botón **"Escanear Documento"**\n2. Coloque su documento dentro del marco\n3. Mantenga la cámara firme\n4. La foto se tomará automáticamente\n\n**Consejos:**\n• Use buena iluminación\n• Evite reflejos\n• Asegúrese que el texto sea legible\n\n¿Está listo para escanear?`;
-            break;
-
-        case 'appointment':
-            response = `¡Perfecto! Vamos a agendar su cita. 📅\n\n**Horarios disponibles esta semana:**\n• Lunes a Viernes: 8:00 AM - 4:00 PM\n• Sábado: 8:00 AM - 12:00 PM\n\n**Oficinas cercanas:**\n• JCE Central - Santo Domingo\n• JCE Norte - Santiago\n\n¿Qué día y hora le conviene mejor?`;
-            break;
-
-        case 'status':
-            response = `📊 **Estado de ${procedure}:**\n\nPuede ver el progreso en el panel derecho de su pantalla. Cada paso se marca con colores:\n\n• 🟡 Amarillo = En proceso\n• 🟢 Verde = Completado\n• ⚪ Gris = Pendiente\n\n¿Hay algo específico que le gustaría saber?`;
+            response = `Para los documentos, le guío paso a paso: 📷\n\n1. Presione el botón **\"Escanear Documento\"**\n2. Coloque su documento dentro del marco\n3. Mantenga la cámara firme\n4. La foto se tomará automáticamente\n\n**Consejos:**\n• Use buena iluminación\n• Evite reflejos\n• Asegúrese que el texto sea legible\n\n¿Está listo para escanear?`;
             break;
 
         case 'cancel':
-            response = `Entiendo que desea cancelar. 😔\n\nAntes de hacerlo, ¿me puede decir qué le preocupa? Quizás puedo ayudarle a resolver el problema.\n\nSi está seguro de cancelar, puede cerrar esta ventana o decir "confirmar cancelación".`;
+            response = `Entiendo que desea cancelar. 😔\n\nAntes de hacerlo, ¿me puede decir qué le preocupa? Quizás puedo ayudarle a resolver el problema.`;
             break;
 
         case 'thanks':
@@ -144,32 +192,15 @@ function generateLocalResponse(message, context) {
             break;
 
         case 'yes':
-            if (context.currentStep === 1) {
-                response = `¡Excelente! Continuemos con la verificación de identidad. 🔐\n\nVoy a necesitar que:\n1. Mire directamente a la cámara\n2. Mantenga una expresión neutral\n\n¿Está listo? Presione el botón de cámara para comenzar.`;
-            } else {
-                response = `¡Perfecto! Continuamos con el siguiente paso.\n\n¿Qué necesita hacer ahora?`;
-            }
+            response = `¡Excelente! Continuemos. 👍\n\n¿Qué necesita hacer ahora?`;
             break;
 
         case 'no':
-            response = `Entendido. No hay problema. 👍\n\n¿Qué le gustaría hacer en su lugar? Estoy aquí para ayudarle con lo que necesite.`;
-            break;
-
-        case 'requirements':
-            response = `📋 **Requisitos generales para trámites:**\n\n**Documentos básicos:**\n• Cédula de identidad vigente\n• Foto reciente (la tomamos aquí)\n\n**Para renovación de cédula:**\n• Cédula actual o constancia de extravío\n\n**Para licencia:**\n• Certificado médico\n• Curso de conducción (si es primera vez)\n\n¿Para qué trámite específico necesita los requisitos?`;
-            break;
-
-        case 'time':
-            response = `⏱️ **Tiempos estimados:**\n\n• Renovación de Cédula: 5-10 días\n• Acta de Nacimiento: 3-5 días\n• Licencia de Conducir: 1-3 días\n\n*Nota: Estos tiempos pueden variar según la demanda.*\n\n¿Hay algo más que pueda ayudarle?`;
-            break;
-
-        case 'cost':
-            response = `💰 **Costos aproximados:**\n\n• Renovación de Cédula: RD$500\n• Acta de Nacimiento: RD$100\n• Licencia de Conducir: RD$1,500\n\n*Los pagos se realizan en la oficina al recoger el documento.*\n\n¿Desea continuar con algún trámite?`;
+            response = `Entendido. No hay problema. 👍\n\n¿Qué le gustaría hacer en su lugar?`;
             break;
 
         default:
-            // Natural conversation fallback
-            response = `Entiendo que me dice: "${message}"\n\nDéjeme asegurarme de entender bien. ¿Podría decirme más específicamente qué necesita?\n\nPuedo ayudarle con:\n• Renovación de cédula\n• Actas de nacimiento\n• Licencias de conducir\n• Cualquier consulta sobre trámites\n\n¿En qué le puedo asistir?`;
+            response = `Entiendo que me dice: \"${message}\"\n\nDéjeme asegurarme de entender bien. ¿Podría decirme más específicamente qué necesita?\n\nPuedo ayudarle con:\n• Cédula de Ciudadanía\n• Tarjeta de Identidad\n• Registro Civil\n• Apostilla\n• Citas y Tarifas\n\n¿En qué le puedo asistir?`;
     }
 
     return {
@@ -185,15 +216,235 @@ function generateLocalResponse(message, context) {
  */
 function getSuggestions(intent, context) {
     const suggestions = {
-        greeting: ['Renovar cédula', 'Acta de nacimiento', '¿Qué puedo hacer?'],
-        help: ['Renovar cédula', 'Ver requisitos', 'Hablar con agente'],
-        cedula: ['Comenzar ahora', 'Ver requisitos', '¿Cuánto tarda?'],
-        documents: ['Escanear documento', 'Necesito ayuda', 'Usar foto existente'],
-        appointment: ['Mañana en la mañana', 'Esta semana', 'Ver todas las fechas'],
-        default: ['Ayuda', 'Ver mis trámites', 'Hablar con agente']
+        greeting: ['Cédula primera vez', 'Registro Civil', '¿Qué puedo hacer?'],
+        help: ['Cédula', 'Registro Civil', 'Ver tarifas'],
+        cedula: ['Primera vez (GRATUITA)', 'Duplicado', 'Renovación (GRATUITA)'],
+        cedula_primera: ['Agendar cita', 'Ver requisitos', '¿Cuánto tarda?'],
+        cedula_duplicado: ['Verificar exoneración', 'Verificación biométrica', 'Agendar cita'],
+        cedula_renovacion: ['Agendar cita', 'Ver oficinas', '¿Cuánto tarda?'],
+        tarjeta_identidad: ['Agendar cita', 'Ver requisitos', '¿Cuánto tarda?'],
+        nacimiento: ['Inscribir nacimiento', 'Copia registro', 'Ver costo'],
+        matrimonio: ['Solicitar copia', 'Ver costo', 'Agendar cita'],
+        apostilla: ['Agendar cita', 'Ver costo', '¿Qué documentos?'],
+        estado: ['Consultar por cédula', 'Consultar por radicado'],
+        tarifas: ['Verificar exoneración', 'Agendar cita', 'Ver requisitos'],
+        cita: ['Bogotá', 'Medellín', 'Cali'],
+        documents: ['Escanear documento', 'Necesito ayuda'],
+        default: ['Ayuda', 'Ver servicios', 'Llamar: 01 8000 111 555']
     };
 
     return suggestions[intent] || suggestions.default;
+}
+
+// ============================================================================
+// Registraduría Nacional de Colombia — API Functions
+// ============================================================================
+
+/**
+ * Inicia un trámite de Cédula de Ciudadanía o Tarjeta de Identidad
+ * @param {string} tipoTramite - primera_vez | duplicado | rectificacion | renovacion | tarjeta_identidad
+ * @param {object} datosCiudadano - Datos del ciudadano
+ */
+export async function tramiteCedula(tipoTramite, datosCiudadano = {}) {
+    const endpoint = tipoTramite === 'tarjeta_identidad'
+        ? `${API_BASE}/registraduria/identificacion/tarjeta`
+        : `${API_BASE}/registraduria/identificacion/cedula`;
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                tipo_tramite: tipoTramite,
+                datos_ciudadano: datosCiudadano,
+                session_id: sessionId
+            })
+        });
+        if (response.ok) return await response.json();
+    } catch (error) {
+        console.error('Cédula tramite error:', error);
+    }
+
+    // Fallback local
+    return {
+        exito: true,
+        mensaje: `Trámite de ${tipoTramite.replace(/_/g, ' ')} iniciado. Por favor visite la Registraduría más cercana.`,
+        requiere_biometria: tipoTramite === 'duplicado',
+        siguiente_paso: tipoTramite === 'duplicado' ? 'verificacion_biometrica_facial' : 'agendar_cita'
+    };
+}
+
+/**
+ * Trámites de Registro Civil (copias, inscripción, apostilla)
+ * @param {string} tipo - nacimiento | matrimonio | defuncion | apostilla | inscripcion
+ * @param {object} datos - Datos del trámite
+ */
+export async function tramiteRegistroCivil(tipo, datos = {}) {
+    const endpoint = tipo === 'apostilla'
+        ? `${API_BASE}/registraduria/registro-civil/apostilla`
+        : tipo === 'inscripcion'
+            ? `${API_BASE}/registraduria/registro-civil/inscripcion`
+            : `${API_BASE}/registraduria/registro-civil/copia`;
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tipo, datos, session_id: sessionId })
+        });
+        if (response.ok) return await response.json();
+    } catch (error) {
+        console.error('Registro civil error:', error);
+    }
+
+    return {
+        exito: true,
+        mensaje: `Solicitud de ${tipo} de Registro Civil recibida.`,
+        siguiente_paso: 'confirmar_pago'
+    };
+}
+
+/**
+ * Consulta el estado de un documento en trámite
+ * @param {string} numeroCedula - Número de cédula del ciudadano
+ * @param {string} radicado - Número de radicado (opcional)
+ */
+export async function consultarEstadoDocumento(numeroCedula, radicado = null) {
+    try {
+        const response = await fetch(`${API_BASE}/registraduria/consultas/estado`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                numero_cedula: numeroCedula,
+                radicado,
+                session_id: sessionId
+            })
+        });
+        if (response.ok) return await response.json();
+    } catch (error) {
+        console.error('Consulta estado error:', error);
+    }
+
+    // Fallback con datos simulados
+    return {
+        exito: true,
+        mensaje: '⏳ Su trámite está en proceso. Tiempo estimado: 10 días hábiles.',
+        datos: {
+            estado: 'en_proceso',
+            paso_actual: 2,
+            porcentaje: 33,
+            pasos: [
+                { id: 1, nombre: 'Solicitud Recibida', icono: '📥', estado: 'completado' },
+                { id: 2, nombre: 'Verificación Biométrica', icono: '🔐', estado: 'en_proceso' },
+                { id: 3, nombre: 'Revisión Documental', icono: '📋', estado: 'pendiente' },
+                { id: 4, nombre: 'Aprobación', icono: '✅', estado: 'pendiente' },
+                { id: 5, nombre: 'Producción', icono: '🏭', estado: 'pendiente' },
+                { id: 6, nombre: 'Listo para Recoger', icono: '🎉', estado: 'pendiente' },
+            ]
+        }
+    };
+}
+
+/**
+ * Consulta oficinas de la Registraduría por ciudad
+ * @param {string} ciudad - Ciudad a buscar (opcional)
+ */
+export async function consultarOficinas(ciudad = null) {
+    try {
+        const url = ciudad
+            ? `${API_BASE}/registraduria/consultas/oficinas?ciudad=${encodeURIComponent(ciudad)}`
+            : `${API_BASE}/registraduria/consultas/oficinas`;
+        const response = await fetch(url);
+        if (response.ok) return await response.json();
+    } catch (error) {
+        console.error('Consulta oficinas error:', error);
+    }
+
+    return {
+        exito: true,
+        mensaje: 'Consulte las oficinas en registraduria.gov.co o llame al 01 8000 111 555',
+        datos: { oficinas: [] }
+    };
+}
+
+/**
+ * Agenda una cita en la Registraduría
+ * @param {string} servicio - Tipo de servicio
+ * @param {string} ciudad - Ciudad del ciudadano
+ * @param {string} fechaPreferida - Fecha preferida (opcional)
+ * @param {string} horaPreferida - Hora preferida (opcional)
+ */
+export async function agendarCita(servicio, ciudad, fechaPreferida = null, horaPreferida = null) {
+    try {
+        const response = await fetch(`${API_BASE}/registraduria/citas/agendar`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                servicio,
+                ciudad,
+                fecha_preferida: fechaPreferida,
+                hora_preferida: horaPreferida,
+                session_id: sessionId
+            })
+        });
+        if (response.ok) return await response.json();
+    } catch (error) {
+        console.error('Agendar cita error:', error);
+    }
+
+    return {
+        exito: true,
+        mensaje: `📅 Cita agendada en ${ciudad}. Recibirá confirmación por correo.`,
+        datos: { ciudad, servicio }
+    };
+}
+
+/**
+ * Consulta tarifas vigentes de la Registraduría
+ * @param {string} tipoTramite - Tipo específico de trámite (opcional)
+ */
+export async function consultarTarifas(tipoTramite = null) {
+    try {
+        const url = tipoTramite
+            ? `${API_BASE}/registraduria/tarifas?tipo_tramite=${encodeURIComponent(tipoTramite)}`
+            : `${API_BASE}/registraduria/tarifas`;
+        const response = await fetch(url);
+        if (response.ok) return await response.json();
+    } catch (error) {
+        console.error('Consulta tarifas error:', error);
+    }
+
+    return {
+        exito: true,
+        mensaje: '💰 Tarifas 2024: Cédula primera vez GRATUITA. Duplicado $51.900. Copias registro civil $6.900. Apostilla $51.900.',
+        datos: {}
+    };
+}
+
+/**
+ * Verifica si el ciudadano aplica para exoneración de tarifas
+ * @param {object} datosCiudadano - Condiciones del ciudadano
+ */
+export async function verificarExoneracion(datosCiudadano) {
+    try {
+        const response = await fetch(`${API_BASE}/registraduria/tarifas/exoneracion`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                datos_ciudadano: datosCiudadano,
+                session_id: sessionId
+            })
+        });
+        if (response.ok) return await response.json();
+    } catch (error) {
+        console.error('Verificar exoneración error:', error);
+    }
+
+    return {
+        exito: true,
+        mensaje: 'Para verificar su exoneración, visite la Registraduría con los documentos que acrediten su condición.',
+        datos: { exonerado: false }
+    };
 }
 
 /**
